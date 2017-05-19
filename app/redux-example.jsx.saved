@@ -1,0 +1,48 @@
+var redux = require('redux');
+
+console.log('Starting redux example');
+
+//Pure Functions
+function add (a, b) {
+    return a + b;
+}
+
+// Always returns the same result given the same inputs
+//Doesn't use any variable outside of itself
+// and does not effect any variable, side effect, outside itself
+// No asynchronous requests, No Promises or Callbacks
+// Not allowed to update the values of paramaters passd to the function,
+
+var a = 3;
+function add(b) {
+    return a + b;
+}
+
+var result;
+function add (a, b) {
+    result = a + b;
+    return result;
+}
+
+function add (a, b )  {
+    return a + b + new Date().getSeconds();
+}
+
+function changeProp(obj) {
+    return {
+        ...obj,
+        name: 'Bob'
+    };
+    //obj.Name = 'Bob';
+    //return obj;
+}
+
+var startingValue ={
+    name: 'Andrew',
+    age: 25
+}
+
+var res = changeProp(startingValue);
+console.log(startingValue);
+console.log(res);
+
