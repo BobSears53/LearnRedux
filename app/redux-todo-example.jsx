@@ -12,8 +12,24 @@ var stateDefault = {
 };
 var reducer = (state = stateDefault, action) => {
     // state = state || {name: 'Anonymous'};
-    return state;
+    switch (action.type) {
+        case 'CHANGE_SEARCH_STATE':
+            return { // return a new state based on action
+                ...state,
+                searchText: action.searchText
+            };
+        default:
+            return state;
+    }
 };
 var store = redux.createStore(reducer);
 
-console.log('currentState', store.getState());
+var currentState = store.getState();
+console.log('currentState', currentState);
+
+store.dispatch({
+    type: 'CHANGE_SEARCH_STATE',
+    searchText: 'Sam'
+});
+
+console.log('searchText should be Sam', store.getState());
