@@ -3,64 +3,13 @@ var redux = require('redux');
 console.log('Starting redux example');
 
 
-var stateDefault = {
-    name: 'Anonymous',
-    hobbies: [],
-    movies: []
-};
-var nextHobbyId = 1;
-var nextMovieID = 1;
+
 //reducer takes state and updates
 //The reducer has a default state
 //The reducer returns a state even if there is no action or if the action is not recognized.
-var oldreducer = (state = stateDefault, action) => {
-    // state = state || {name: 'Anonymous'};
 
-    console.log('New action', action);
-    switch (action.type) {
-        case 'CHANGE_NAME':
-            return { // return a new state based on action
-                ...state,
-                name: action.name
-            };
-        case 'ADD_HOBBY':
-            return{
-                ...state,
-                hobbies: [
-                    ...state.hobbies,
-                    {
-                        id: nextHobbyId++,
-                        hobby: action.hobby
-                    }
-                ]
-            };
-        case  'ADD_MOVIE':
-            return {
-                ...state,
-                movies:[
-                    ...state.movies,
-                    {
-                        id: nextMovieID++,
-                        title: action.title,
-                        genre: action.genre
-                    }
-                ]
-            };
-        case 'REMOVE_MOVIE':
-            return {
-                ...state,
-                movies: state.movies.filter((movie) => movie.id !== action.id)
-            };
-        case 'REMOVE_HOBBY':
-            return {
-                ...state,
-                hobbies: state.hobbies.filter((hobby) => hobby.id !== action.id)
-            }
-        default:
-            return state;
-    }
-};
-
+//Name Reducer and Action Generators
+// -----------------------------------------------------
 var nameReducer = (state = 'Anonymous',action) => {
     switch (action.type){
         case 'CHANGE_NAME':
@@ -70,6 +19,16 @@ var nameReducer = (state = 'Anonymous',action) => {
     };
 };
 
+var changeName = (name) => {
+    return {
+        type: 'CHANGE_NAME',
+        name
+    }
+};
+
+//Hobby Reducer and Action Generators
+// -----------------------------------------------------
+var nextHobbyId = 1;
 var hobbiesReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_HOBBY':
@@ -87,13 +46,30 @@ var hobbiesReducer = (state = [], action) => {
     }
 };
 
+var addHobby = (hobby) => {
+    return {
+        type: 'ADD_HOBBY',
+        hobby
+    };
+};
+
+var removeHobby = (id) => {
+    return {
+        type: 'REMOVE_HOBBY',
+        id
+    };
+};
+
+//Movie Reducer and Action Generators
+// -----------------------------------------------------
+var nextMovieId = 1;
 var moviesReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_MOVIE':
             return  [
                 ...state,
                 {
-                    id: nextMovieID++,
+                    id: nextMovieId++,
                     title: action.title,
                     genre: action.genre
                 }
@@ -104,6 +80,24 @@ var moviesReducer = (state = [], action) => {
             return state;
     }
 };
+
+var addMovie = (movie, genre) => {
+    return {
+        type: 'ADD_MOVIE',
+        movie,
+        genre
+    };
+};
+
+
+var removeMovie = (id) => {
+    return {
+        type: 'REMOVE_MOVIE',
+        id
+    };
+};
+
+// Reducers
 
 var reducer = redux.combineReducers({
     name: nameReducer,
@@ -132,46 +126,22 @@ var currentState = store.getState();
 console.log('currentState', currentState);
 //unsubscribe();
 
-store.dispatch({
-    type: 'CHANGE_NAME',
-    name: 'Bob'
-});
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Drumming'
-});
+store.dispatch(changeName('Bob'));
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Singing'
-});
+store.dispatch(addHobby('Drumming'));
 
-store.dispatch({
-    type: 'REMOVE_HOBBY',
-    id: 2
-});
+store.dispatch(addHobby('Singing'));
 
-store.dispatch({
-    type: 'CHANGE_NAME',
-    name: 'Charlene'
-});
+store.dispatch(removeHobby(2));
 
-store.dispatch({
-    type:'ADD_MOVIE',
-    title: 'Star Wars',
-    genre: 'Sci-Fi'
-});
+store.dispatch(changeName('Charlene'));
 
-store.dispatch({
-    type:'ADD_MOVIE',
-    title: 'Buckaroo Bonzai',
-    genre: 'Sci-Fi'
-});
+store.dispatch(addMovie('Star Wars', 'Sci-Fi'));
 
-store.dispatch({
-    type: 'REMOVE_MOVIE',
-    id: 1
-});
+store.dispatch(addMovie('Buckaroo Bonzai', 'Sci-Fi'));
+
+store.dispatch(removeMovie(1));
+
 
 
