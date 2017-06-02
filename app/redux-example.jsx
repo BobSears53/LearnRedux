@@ -13,7 +13,7 @@ var nextMovieID = 1;
 //reducer takes state and updates
 //The reducer has a default state
 //The reducer returns a state even if there is no action or if the action is not recognized.
-var reducer = (state = stateDefault, action) => {
+var oldreducer = (state = stateDefault, action) => {
     // state = state || {name: 'Anonymous'};
 
     console.log('New action', action);
@@ -60,6 +60,57 @@ var reducer = (state = stateDefault, action) => {
             return state;
     }
 };
+
+var nameReducer = (state = 'Anonymous',action) => {
+    switch (action.type){
+        case 'CHANGE_NAME':
+            return action.name;
+        default:
+            return state;
+    };
+};
+
+var hobbiesReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_HOBBY':
+            return [
+                ...state,
+                {
+                    id: nextHobbyId++,
+                    hobby: action.hobby
+                }
+            ];
+        case 'REMOVE_HOBBY':
+            return state.filter((hobby) => hobby.id !== action.id)
+        default:
+            return state;
+    }
+};
+
+var moviesReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_MOVIE':
+            return  [
+                ...state,
+                {
+                    id: nextMovieID++,
+                    title: action.title,
+                    genre: action.genre
+                }
+        ];
+        case 'REMOVE_MOVIE':
+            return state.filter((movie) => movie.id !== action.id)
+        default:
+            return state;
+    }
+};
+
+var reducer = redux.combineReducers({
+    name: nameReducer,
+    hobbies: hobbiesReducer,
+    movies: moviesReducer
+});
+
 var store = redux.createStore(reducer, redux.compose(
     window.devToolsExtension ? window.devToolsExtension() : f => f
     // window.devToolsExtension ? window.devToolsExtension() : (f) => {
