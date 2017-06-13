@@ -14,7 +14,8 @@
     "express": "^4.14.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
-    "react-router": "^2.0.0"
+    "react-router": "^2.0.0",
+    "webpack": "^1.15.0"
   },
   "devDependencies": {
     "babel-core": "^6.5.1",
@@ -36,9 +37,10 @@
     "node-sass": "^4.5.0",
     "react-addons-test-utils": "^0.14.7",
     "redux": "^3.3.1",
+    "redux-thunk": "^2.0.1",
     "sass-loader": "^4.1.1",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.13"
+    "webpack": "^2.2.0-rc.1"
   }
 }
